@@ -10,7 +10,7 @@ receiver = "0xBf91DAb45845dAB73C1566b0eFA30e79A4DBEe69"
 
 @app.route('/')
 def index():
-    
+    '''
     balance = web3.eth.get_balance(receiver, 'latest')
     print("Destination balance before transfer: ", balance)
 
@@ -36,12 +36,35 @@ def index():
     tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
     balance = web3.eth.get_balance(receiver, 'latest')
     print(balance)
-    return f'Destination balance after transfer: {balance} ETH'
+    '''
+    return "Hello World!"
 
 @app.route('/getBalance/<address>')
 def getBalance(address):
     balance = web3.eth.get_balance(address, 'latest')
     return str(balance)
 
+@app.route('/sendTransaction/<address>/<amount>/<private_key>')
+def sendTransaction(address, amount, private_key):
+    sender = {
+        "private_key": private_key, 
+        "address": address,
+    }
+    web3.eth.set_gas_price_strategy(rpc_gas_price_strategy)
+    tx_create = web3.eth.account.sign_transaction(
+        {
+            "nonce": web3.eth.get_transaction_count(sender["address"]),
+            "gasPrice": web3.eth.generate_gas_price(),
+            "gas": 21000,
+            "to": receiver,
+            "value": int(amount),
+            "chainId": 11155111
+        },
+        sender["private_key"]
+        
+    )
+    tx_hash = web3.eth.send_raw_transaction(tx_create.rawTransaction)
+    tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+    return str(tx_receipt)
 #if __name__ == '__main__':
 #    app.run()
