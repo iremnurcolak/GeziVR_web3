@@ -21,7 +21,7 @@ def index():
     
     balance = w3.eth.get_balance('0xBf91DAb45845dAB73C1566b0eFA30e79A4DBEe69')
     
-    return w3.is_connected(), balance
+    return str(balance)
 
     
 
