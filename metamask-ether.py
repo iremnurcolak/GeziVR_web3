@@ -39,10 +39,20 @@ def index():
     '''
     return "Hello World!"
 
+def toEther(amount):
+    float_val = float(amount)
+    return float_val / (10 ** 18)
+
 @app.route('/getBalance/<address>')
 def getBalance(address):
     balance = web3.eth.get_balance(address, 'latest')
+    balance = toEther(balance)
     return str(balance)
+
+#gezivr privatekey 1c133ce01ec9718fbb2fd514527956694540e1c52110eacd3ea7d9a269b4606e
+def toWei(amount):
+    float_val = float(amount)
+    return int(float_val * (10 ** 18))
 
 @app.route('/sendTransaction/<address>/<amount>/<private_key>')
 def sendTransaction(address, amount, private_key):
@@ -57,7 +67,7 @@ def sendTransaction(address, amount, private_key):
             "gasPrice": web3.eth.generate_gas_price(),
             "gas": 21000,
             "to": receiver,
-            "value": int(amount),
+            "value":toWei(amount),
             "chainId": 11155111
         },
         sender["private_key"]
@@ -66,5 +76,8 @@ def sendTransaction(address, amount, private_key):
     tx_hash = web3.eth.send_raw_transaction(tx_create.rawTransaction)
     tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
     return str(tx_receipt)
+
+
+
 #if __name__ == '__main__':
 #    app.run()
