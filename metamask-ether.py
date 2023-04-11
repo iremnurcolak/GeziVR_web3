@@ -60,8 +60,9 @@ def sendTransaction(address, amount, private_key):
         "private_key": private_key, 
         "address": address,
     }
-    web3.eth.set_gas_price_strategy(rpc_gas_price_strategy)
-    tx_create = web3.eth.account.sign_transaction(
+    try:
+        web3.eth.set_gas_price_strategy(rpc_gas_price_strategy)
+        tx_create = web3.eth.account.sign_transaction(
         {
             "nonce": web3.eth.get_transaction_count(sender["address"]),
             "gasPrice": web3.eth.generate_gas_price(),
@@ -72,13 +73,15 @@ def sendTransaction(address, amount, private_key):
         },
         sender["private_key"]
 
-    )
-    tx_hash = web3.eth.send_raw_transaction(tx_create.rawTransaction)
-    tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-    if tx_receipt:
-        return "Success"
-    else:
-        return "Fail"
+        )
+        tx_hash = web3.eth.send_raw_transaction(tx_create.rawTransaction)
+        tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+    except:
+        return "Failed"
+    
+    print(tx_receipt)
+    return "Success"
+
 
 
 
