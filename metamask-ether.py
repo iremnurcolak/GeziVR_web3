@@ -71,11 +71,14 @@ def sendTransaction(address, amount, private_key):
             "chainId": 11155111
         },
         sender["private_key"]
-        
+
     )
     tx_hash = web3.eth.send_raw_transaction(tx_create.rawTransaction)
     tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-    return str(tx_receipt)
+    if tx_receipt:
+        return "Success"
+    else:
+        return "Fail"
 
 
 
