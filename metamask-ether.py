@@ -85,5 +85,5 @@ def sendTransaction(address, amount, private_key):
 
 
 
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+#    app.run()
