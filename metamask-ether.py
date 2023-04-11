@@ -75,15 +75,15 @@ def sendTransaction(address, amount, private_key):
 
         )
         tx_hash = web3.eth.send_raw_transaction(tx_create.rawTransaction)
-        tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+        print(tx_hash)
+        return "Success"
+        #tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
     except:
         return "Failed"
     
-    print(tx_receipt)
-    return "Success"
 
 
 
 
-#if __name__ == '__main__':
-#    app.run()
+if __name__ == '__main__':
+    app.run()
