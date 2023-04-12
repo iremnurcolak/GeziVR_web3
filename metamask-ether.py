@@ -92,8 +92,9 @@ def sendTransaction2():
     amount = request.get_json()["amount"]
     print(userId)
     print(amount)
-    privateKey = ref.child("users").child(str(userId)).child("privateKey").get()
-    decryptedKey = decrypt(privateKey["privateKey"], privateKey["length"])
+    privateKey = ref.child("users").child(str(userId)).child("private_key").get()
+    print(privateKey)
+    decryptedKey = decrypt(privateKey["en_privateKey"], privateKey["length"])
     accountAddress = ref.child("users").child(str(userId)).child("accountAddress").get()
     return sendTransaction(accountAddress, amount, decryptedKey)
 
@@ -113,5 +114,5 @@ def setPaymentInfo():
     return "Done"
 
 
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+#    app.run()
