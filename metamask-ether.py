@@ -72,7 +72,6 @@ def sendTransaction(address, amount, private_key):
         sender["private_key"]
         )
         tx_hash = web3.eth.send_raw_transaction(tx_create.rawTransaction)
-        print(tx_hash)
         return "Success"
         #tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
     except:
@@ -82,10 +81,7 @@ def sendTransaction(address, amount, private_key):
 def sendTransaction2():
     userId = request.get_json()["userId"]
     amount = request.get_json()["amount"]
-    print(userId)
-    print(amount)
     privateKey = ref.child("users").child(str(userId)).child("private_key").get()
-    print(privateKey)
     decryptedKey = decrypt(privateKey["en_privateKey"], privateKey["length"])
     accountAddress = ref.child("users").child(str(userId)).child("accountAddress").get()
     return sendTransaction(accountAddress, amount, decryptedKey)
