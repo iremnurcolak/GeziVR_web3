@@ -40,14 +40,6 @@ def toWei(amount):
     float_val = float(amount)
     return int(float_val * (10 ** 18))
 
-@app.route('/getPrivateKey', methods=['GET','POST'])
-def getPrivateKey():
-    title = request.get_json()["title"]
-    encrypt = request.get_json()["content"]
-    length = request.get_json()["length"]
-    key = decrypt(encrypt, length)
-    
-    return key
    
 def decrypt(encrypted_key, length):
     key_bytes = bytes("1c133ce01ec9718fbb2fd514527956694540e1c52110eacd3ea7d9a269b4606e", 'utf-8')
